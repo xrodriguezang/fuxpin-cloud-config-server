@@ -30,8 +30,8 @@ spring:
   security:
     # When is uses the Spring Security Starter, it can define the user + password for the basic authentication
     user:
-      name: root
-      password: s2cr3t
+      name: ${rest.user}
+      password: ${rest.password}
 
 ---
 
@@ -44,7 +44,7 @@ server:
     enabled: true
     keyPassword: 123456
     keyStore: file:C:\Users\amgri\desenvolupament\ss-tfg-unir\xrodrigdnskeystore
-    keyStorePassword: 123456
+    keyStorePassword: ${keystore.password}
 
 ---
 
