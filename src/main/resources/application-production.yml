@@ -1,0 +1,29 @@
+server:
+  port: 8446
+
+---
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          search-paths: production
+
+---
+
+logging:
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework.web: WARN
+    org.hibernate: WARN
+  file:
+    name: /var/log/fuxpin/fuxpin-config-server.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: /var/log/fuxpin/fuxpin-config-server-%d{yyyy-MM-dd}.%i.log
+      max-history: 7 # Number of days that cleans history
+      max-file-size: 5MB # Limit size
+      clean-history-on-start: false

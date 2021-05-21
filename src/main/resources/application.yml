@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: fuxpin-config-server
+  profiles:
+    # Profile active by default - application
+    active: default
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xrodriguezang/fuxpin-properties
+          username: ${user.github.login}
+          password: ${user.github.password}
+          # The server clones remote repositories when the Spring Cloud Config Server is started
+          cloneOnStart: true
+          git:
+            timeout: 5  # Setting the HTTP connection timeout
+          # Defines the local directory where is pulled the remote repository
+          basedir: C:\Users\amgri\OneDrive\Documentos\remoteGitHub\
+          #  It will make Spring Cloud Config Server force delete untracked branches from local repository
+          delete-untracked-branches: true
+          search-paths: localhost # The server searches for config files in the top level and in the localhost sub-directory
+
+        encrypt:
+          enabled: true
+
+
+  jmx:
+    default-domain: fuxpin-config-server
+  security:
+    # When is uses the Spring Security Starter, it can define the user + password for the basic authentication
+    user:
+      name: root
+      password: s2cr3t
+
+---
+
+server:
+  port: 8445
+  servlet:
+    context-path: /fuxpin-config-server
+  name: https://xrodrig.dnsnet.info:${server.port}
+  ssl:
+    enabled: true
+    keyPassword: 123456
+    keyStore: file:C:\Users\amgri\desenvolupament\ss-tfg-unir\xrodrigdnskeystore
+    keyStorePassword: 123456
+
+---
+
+logging:
+  pattern:
+    file: "%d %-5level [%thread] %logger : %msg%n"
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate: DEBUG
+  file:
+    name: C:\Users\amgri\logs\fuxpin-config-server\fuxpin-config-server.log
+  logback:
+    rollingpolicy:
+      clean-history-on-start: true
