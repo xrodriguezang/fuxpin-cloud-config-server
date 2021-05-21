@@ -42,7 +42,6 @@ server:
   name: https://xrodrig.dnsnet.info:${server.port}
   ssl:
     enabled: true
-    keyPassword: 123456
     keyStore: file:C:\Users\amgri\desenvolupament\ss-tfg-unir\xrodrigdnskeystore
     keyStorePassword: ${keystore.password}
 
