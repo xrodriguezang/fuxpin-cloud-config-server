@@ -138,14 +138,17 @@ To enable the *production* profile. In this cas, the server run reading producti
 ````
 
 ## Enviorment variables
-You have to define in environment variables(java) to populate the github credentials. In ***VM options*** define:
+You have to define in environment variables(java), for example, to populate the github credentials. In Spring Boot task -> ***VM options*** define:
 
 ````
-${user.github.login}
-${user.github.password}
+-Duser.github.login=login 
+-Duser.github.password=password 
+-Dkeystore.password=password 
+-Drest.user=user 
+-Drest.password=password
 ````
 
-## Example *Serverless* execution
+## Examples *Serverless* execution
 
 * default:
 
@@ -159,17 +162,18 @@ Commands to generate .jar:
 ````
 $ gradew clean assemble
 ````
-directory:
+jar location
 ````
-/build/libs/
+${PROJECT_DIRECTORY}/build/libs/
 ````
 
 ## Production launcher
 
-``
+````
 java -jar "-Dspring.profiles.active=production" "-Duser.github.login=login" "-Duser.github.password=password" "-Dkeystore.password=password" "-Drest.user=user" "-Drest.password=password" fuxpin-config-server-0.0.1.jar
-``
-References:
+````
+
+# References:
 
 * https://cloud.spring.io/spring-cloud-config/reference/html/
 * https://cloud.spring.io/spring-cloud-config/reference/html/#_spring_cloud_config_server
