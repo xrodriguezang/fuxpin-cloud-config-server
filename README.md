@@ -170,10 +170,68 @@ ${PROJECT_DIRECTORY}/build/libs/
 ## Production launcher
 
 ````
-java -jar "-Dspring.profiles.active=production" "-Duser.github.login=login" "-Duser.github.password=password" "-Dkeystore.password=password" "-Drest.user=user" "-Drest.password=password" fuxpin-config-server-0.0.1.jar
+java -Xms128m -Xmx256m -jar -Dspring.profiles.active=production -Duser.github.login=login -Duser.github.password=password -Dkeystore.password=password -Drest.user=user -Drest.password=password fuxpin-config-server-0.0.1.jar
+````
+
+## Create a Run Java Jar Application with Systemd
+* For this configuration *pi* user is used to execute the serveless execution. Before proced, create a directory:
+````
+/opt/java-jar 
+````
+Give the user ang group ownership permissions for the Fuxpin Systems Jars: 
+````
+sudo chown -R pi:pi /opt/java-jars 
+````
+* Create Systemd Service
+````
+sudo vi /etc/systemd/system/fuxpinconfigserver.service
+````
+with contents:
+````editorconfig
+[Unit]
+Description=Fuxpin Cloud Config Server Java service
+
+[Service]
+WorkingDirectory=/opt/java-jars
+ExecStart=java -Xms128m -Xmx256m -jar -Dspring.profiles.active=production -Duser.github.login=login -Duser.github.password=password -Dkeystore.password=password -Drest.user=user -Drest.password=password fuxpin-config-server-0.0.1.jar
+User=pi
+Type=simple
+Restart=on-failure
+````
+
+* Before start the application, reload systemd so that it knows ot the new service added: 
+````
+sudo systemctl daemon-reload
+````
+
+* Once realoaded, the service is avaliable:
+````
+sudo systemctl start fuxpinconfigserver.service
+````
+* Also, verify the status:
+````
+sudo systemctl status fuxpinconfigserver
+````
+Result:
+````
+● fuxpinconfigserver.service - Fuxpin Cloud Config Server Java service
+   Loaded: loaded (/etc/systemd/system/fuxpinconfigserver.service; static; vendor preset: enabled)
+   Active: active (running) since Sun 2021-05-23 12:10:12 CEST; 16min ago
+ Main PID: 2596 (java)
+    Tasks: 38 (limit: 4915)
+   Memory: 197.7M
+   CGroup: /system.slice/fuxpinconfigserver.service
+           └─2596 /usr/bin/java -Xms128m -Xmx256m -jar -Dspring.profiles.active=production -Duser.github.login=login -Duser.github.password=password -Dkeystore.password=password -Drest.user=user -Drest.password=password fuxpin-config-server-0.0.1.jar
+
+May 23 12:10:37 raspberrypi java[2596]: 2021-05-23 12:10:37,332 INFO  org.springframework.security.web.DefaultSecurityFilterChain : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@db2d95, org.springfra
+May 23 12:10:38 raspberrypi java[2596]: 2021-05-23 12:10:38,714 INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer : Tomcat started on port(s): 8446 (https) with context path '/fuxpin-config-server'
+May 23 12:10:38 raspberrypi java[2596]: 2021-05-23 12:10:38,817 INFO  unir.tfg.configserver.fuxpinconfigserver.FuxpinConfigServerApplication : Started FuxpinConfigServerApplication in 22.958 seconds (JVM running for 26.114)
+May 23 12:10:39 raspberrypi java[2596]: 2021-05-23 12:10:39,060 INFO  org.springframework.boot.availability.ApplicationAvailabilityBean : Application availability state LivenessState changed to CORRECT
+May 23 12:10:39 raspberrypi java[2596]: 2021-05-23 12:10:39,070 INFO  org.springframework.boot.availability.ApplicationAvailabilityBean : Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
 ````
 
 # References:
 
 * https://cloud.spring.io/spring-cloud-config/reference/html/
 * https://cloud.spring.io/spring-cloud-config/reference/html/#_spring_cloud_config_server
+* https://computingforgeeks.com/how-to-run-java-jar-application-with-systemd-on-linux/
