@@ -197,6 +197,9 @@ ExecStart=java -Xms128m -Xmx256m -jar -Dspring.profiles.active=production -Duser
 User=pi
 Type=simple
 Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
 ````
 
 * Before start the application, reload systemd so that it knows ot the new service added: 
@@ -206,7 +209,7 @@ sudo systemctl daemon-reload
 
 * Once realoaded, the service is avaliable:
 ````
-sudo systemctl start fuxpinconfigserver.service
+sudo systemctl start fuxpinconfigserver
 ````
 * Also, verify the status:
 ````
@@ -228,6 +231,23 @@ May 23 12:10:38 raspberrypi java[2596]: 2021-05-23 12:10:38,714 INFO  org.spring
 May 23 12:10:38 raspberrypi java[2596]: 2021-05-23 12:10:38,817 INFO  unir.tfg.configserver.fuxpinconfigserver.FuxpinConfigServerApplication : Started FuxpinConfigServerApplication in 22.958 seconds (JVM running for 26.114)
 May 23 12:10:39 raspberrypi java[2596]: 2021-05-23 12:10:39,060 INFO  org.springframework.boot.availability.ApplicationAvailabilityBean : Application availability state LivenessState changed to CORRECT
 May 23 12:10:39 raspberrypi java[2596]: 2021-05-23 12:10:39,070 INFO  org.springframework.boot.availability.ApplicationAvailabilityBean : Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+````
+* To stop the application:
+````
+sudo systemctl stop fuxpinconfigserver
+````  
+* To restart the application:
+````
+sudo systemctl restart fuxpinconfigserver.service
+````
+
+To enable the service on startup server boot:
+````
+sudo systemctl enable fuxpinconfigserver
+````
+Result:
+````
+Created symlink /etc/systemd/system/multi-user.target.wants/fuxpinconfigserver.service → /etc/systemd/system/fuxpinconfigserver.service.
 ````
 
 # References:
