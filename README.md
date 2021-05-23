@@ -174,7 +174,7 @@ java -Xms128m -Xmx256m -jar -Dspring.profiles.active=production -Duser.github.lo
 ````
 
 ## Create a Run Java Jar Application with Systemd
-* For this configuration *pi* user is used to execute the serveless execution. Before proced, create a directory:
+* For this configuration *pi* user is used to run the serveless installation. Before proced, create a directory:
 ````
 /opt/java-jar 
 ````
