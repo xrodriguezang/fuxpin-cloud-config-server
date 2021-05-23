@@ -241,7 +241,7 @@ sudo systemctl stop fuxpinconfigserver
 sudo systemctl restart fuxpinconfigserver.service
 ````
 
-To enable the service on startup server boot:
+* To enable the service on startup server boot:
 ````
 sudo systemctl enable fuxpinconfigserver
 ````
