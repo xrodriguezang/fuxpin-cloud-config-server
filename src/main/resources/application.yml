@@ -3,7 +3,7 @@ spring:
     name: fuxpin-config-server
   profiles:
     # Profile active by default - application
-    active: default
+    active: default  # Maps the profiles, it is a comma-separated list
   cloud:
     config:
       server:
@@ -36,7 +36,7 @@ spring:
 ---
 
 server:
-  port: 8445
+  port: 8446
   servlet:
     context-path: /fuxpin-config-server
   name: https://xrodrig.dnsnet.info:${server.port}

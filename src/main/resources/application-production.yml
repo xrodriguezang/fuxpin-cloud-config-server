@@ -1,5 +1,4 @@
 server:
-  port: 8446
   name: https://pi.intranet.cat:${server.port}
   ssl:
     key-store: /home/pi/Documents/keystore
